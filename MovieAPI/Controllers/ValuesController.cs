@@ -1,25 +1,37 @@
-﻿using System;
+﻿using MovieAPI.Core;
+using MovieAPI.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 
 namespace MovieAPI.Controllers
 {
-    [Authorize]
+    [AllowCrossSite]
+    
     public class ValuesController : ApiController
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         // GET api/values
-        public IEnumerable<string> Get()
+        [HttpGet]
+        public IHttpActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+
+            var movies = db.Movies;
+            return Ok(movies);
+
+            //return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return "value";
+            var result = db.Movies.Single(m => m.Id == id);
+            return Ok(result);
         }
 
         // POST api/values
