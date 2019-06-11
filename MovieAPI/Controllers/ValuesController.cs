@@ -20,11 +20,8 @@ namespace MovieAPI.Controllers
         [HttpGet]
         public IHttpActionResult Get()
         {
-
             var movies = db.Movies;
             return Ok(movies);
-
-            //return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
@@ -35,13 +32,39 @@ namespace MovieAPI.Controllers
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post([FromBody] MovieViewModel postedMovie)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data.");
+            }
+            var movie = new Movie();
+            movie.Title = postedMovie.Title;
+            movie.Genre = postedMovie.Genre;
+            movie.DirectorName = postedMovie.DirectorName;
+            db.Movies.Add(movie);
+            db.SaveChanges();
+            return Ok();
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put([FromBody] MovieViewModel movie)
         {
+            var existingMovie = db.Movies.Single(m => m.Title == movie.Title);
+            if(movie.Title != null)
+            {
+                existingMovie.Title = movie.Title;
+            }
+            if(movie.Genre != null)
+            {
+                existingMovie.Genre = movie.Genre;
+            }
+            if(movie.DirectorName != null)
+            {
+                existingMovie.DirectorName = movie.DirectorName;
+            }
+            db.SaveChanges();
+            return Ok();
         }
 
         // DELETE api/values/5
