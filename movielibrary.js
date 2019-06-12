@@ -8,7 +8,6 @@ function get(){
 			url: 'https://localhost:44319/api/values',
 			datatype: 'json',
 			success: function(data){
-				//$('#allmovies').html('<tr>data[0]</tr>');
 				$('#allmovies').empty();
 				$('#allmovies').append('<tr><td>Title</<td><td>Genre</td><td>Director</td><tr>')
 				$.each(data, function (i, item){
