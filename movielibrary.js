@@ -54,3 +54,9 @@ function post(){
 		});
 };
 
+function restart(){
+	$('#formTitle').empty();
+	$('#movieForm').empty();
+	$('.option').show();
+	$('#allmovies').empty();
+}
