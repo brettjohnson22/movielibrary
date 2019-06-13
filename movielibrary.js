@@ -46,7 +46,7 @@ function singleForm(){
 	$('#movieForm').on('submit', function(e){
 		e.preventDefault();	
 	});
-	$('#searchChoice').html('<input type="radio" name="searchTrait" value="Director" id="titleSearch" >Title<input type="radio" name="searchTrait" value="Genre" id="genreSearch" > Genre<input type="radio" name="searchTrait" value="DirectorName" id="directorSearch">Director<br>')
+	$('#searchChoice').html('<input type="radio" name="searchTrait" value="Title" id="titleSearch" >Title<input type="radio" name="searchTrait" value="Genre" id="genreSearch" > Genre<input type="radio" name="searchTrait" value="DirectorName" id="directorSearch">Director<br>')
 }
 
 
@@ -87,27 +87,11 @@ function singleSearch(){
 			$('#allmovies').empty();
 			$('#allmovies').html('<tr><td>Title</<td><td>Genre</td><td>Director</td><tr>');
 			var checked = $('input:radio[name=searchTrait]:checked').val();
-			//if($("#titleSearch").prop("checked", true)){
-				$.each(data, function(i, item){
-					if(data[i][checked] == $('#traitSearch').val()){
-						$('#allmovies').append('<tr><td>' + data[i].Title + '</td><td>' + data[i].Genre + '</td><td>' + data[i].DirectorName + '</td></tr>')
-					}
-				})
-			//}
-			// else if($("#genreSearch").prop("checked", true)){
-			// 	$.each(data, function(i, item){
-			// 		if(data[i].Genre == $('traitSearch').val()){
-			// 			$('#allmovies').append('<tr><td>' + data[i].Title + '</td><td>' + data[i].Genre + '</td><td>' + data[i].DirectorName + '</td></tr>')
-			// 		}
-			// 	})
-			// }
-			// else if($("#directorSearch").prop("checked", true)){
-			// 	$.each(data, function(i, item){
-			// 		if(data[i].DirectorName == $('traitSearch').val()){
-			// 			$('#allmovies').append('<tr><td>' + data[i].Title + '</td><td>' + data[i].Genre + '</td><td>' + data[i].DirectorName + '</td></tr>')
-			// 		}
-			// 	})
-			// }
+			$.each(data, function(i, item){
+				if(data[i][checked] == $('#traitSearch').val()){
+					$('#allmovies').append('<tr><td>' + data[i].Title + '</td><td>' + data[i].Genre + '</td><td>' + data[i].DirectorName + '</td></tr>')
+				}
+			})
 		}
 	});
 }
