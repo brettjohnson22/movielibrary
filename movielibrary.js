@@ -1,7 +1,6 @@
 
-
-
 function get(){
+	$('.option').hide();
 	$.ajax({
 		type: 'GET',
 		url: 'https://localhost:44382/api/values',
@@ -10,45 +9,11 @@ function get(){
 			$('#allmovies').empty();
 			$('#allmovies').append('<tr><td>Title</<td><td>Genre</td><td>Director</td><tr>');
 			$.each(data, function (i, item){
-				$('#allmovies').append('<tr><td>' + data[i].Title + '</td><td>' + data[i].Genre + '</td><td>' + data[i].DirectorName + '</td></tr>');
+				$('#allmovies').append('<tr><td>' + data[i].Title + '</td><td>' + data[i].Genre + '</td><td>' + data[i].DirectorName + '</td><td><button type="button" onclick="edit(' + i + ')">Edit</button></tr>');
 			});
 		}
 	});
 };
-
-$(document).ready(function(){
-	$('#update').click(function(){
-		$.ajax({
-			url: 'https://localhost:44382/api/values',
-
-		})
-	})
-})
-
-function createForm(name, action){
-	$('.option').hide();
-	$('#allmovies').empty();
-	$('#formTitle').html(name);
-	//onsubmit -- prevent default
-    $('#movieForm').attr('onsubmit', action);
-	$('#movieForm').on('submit', function(e){
-		e.preventDefault();	
-	});
-	$('#movieForm').html('Title:<br><input type="text" id="titleInput"><br>Genre:<br><input type="text" id="genreInput"><br>Director:<br><input type="text" id="directorInput"><br><input type="submit" value="Submit">');
-}
-
-function singleForm(){
-	$('.option').hide();
-	$('#allmovies').empty();
-	$('#formTitle').html('Search By Trait');
-	$('#movieForm').html('Search:<br><input type="text" id="traitSearch"><br><input type="submit" value="Submit">');
-	$('#movieForm').attr('onsubmit', 'singleSearch()');
-	$('#movieForm').on('submit', function(e){
-		e.preventDefault();	
-	});
-	$('#searchChoice').html('<input type="radio" name="searchTrait" value="Title" id="titleSearch" >Title<input type="radio" name="searchTrait" value="Genre" id="genreSearch" > Genre<input type="radio" name="searchTrait" value="DirectorName" id="directorSearch">Director<br>')
-}
-
 
 function post(){
 	$.ajax({
@@ -56,17 +21,41 @@ function post(){
 		url: 'https://localhost:44382/api/values',
 		data: createData(),
 		success: function(data){
-			console.log(data);
+			restart();
+			$('#formTitle').html('Movie Added');
 		}
 	});
 };
 
-function createData(){
-	var data = {
+function put(id){
+	var data = createData(id);
+	$.ajax({
+		type: 'PUT',
+		url: 'https://localhost:44382/api/values/' + id,
+		data: data,
+		success: function(d){
+			console.log(d);
+			restart();
+			$('#formTitle').html('Movie Updated');
+		}
+	});
+};
+
+function createData(id){
+	if (arguments.length === 1) {
+		var data = {
+				Title: $('#titleInput')[0].value,
+				Genre: $('#genreInput')[0].value,
+				DirectorName: $('#directorInput')[0].value,
+		}
+	}
+	else {
+		var data = {
 			"Title": $('#titleInput').val(),
 			"Genre": $('#genreInput').val(),
 			"DirectorName": $('#directorInput').val(),
 		}
+	}
 		return data;
 }
 
@@ -76,6 +65,18 @@ function restart(){
 	$('#allmovies').empty();
 	$('#searchChoice').empty();
 	$('.option').show();
+}
+
+function singleForm(){
+	$('.option').hide();
+	$('#allmovies').empty();
+	$('#formTitle').html('Search By Trait');
+	$('#movieForm').html('Search:<br><input type="text" id="traitSearch"><br><br><input type="submit" value="Submit"><br><br>');
+	$('#movieForm').attr('onsubmit', 'singleSearch()');
+	$('#movieForm').on('submit', function(e){
+		e.preventDefault();	
+	});
+	$('#searchChoice').html('<input type="radio" name="searchTrait" value="Title" id="titleSearch" >Title<input type="radio" name="searchTrait" value="Genre" id="genreSearch" > Genre<input type="radio" name="searchTrait" value="DirectorName" id="directorSearch">Director<br>')
 }
 
 function singleSearch(){
@@ -96,6 +97,18 @@ function singleSearch(){
 	});
 }
 
-var checked = $('input:radio[name=searchTrait]:checked').val();
+function fullForm(name, action){
+	$('.option').hide();
+	$('#allmovies').empty();
+	$('#formTitle').html(name);
+	//onsubmit -- prevent default
+    $('#movieForm').attr('onsubmit', action);
+	$('#movieForm').on('submit', function(e){
+		e.preventDefault();	
+	});
+	$('#movieForm').html('Title:<br><input type="text" id="titleInput"><br>Genre:<br><input type="text" id="genreInput"><br>Director:<br><input type="text" id="directorInput"><br><br><input type="submit" value="Submit">');
+}
 
-//I want to search by attributes. Do I want to have the user choose which attribute to search by?
+function edit(id){
+	fullForm('Edit Selection', 'put(' + id + ')')
+}

@@ -7,13 +7,13 @@ namespace MoviesTake2.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class initial : IMigrationMetadata
+    public sealed partial class dbseed : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(dbseed));
         
         string IMigrationMetadata.Id
         {
-            get { return "201906131333212_initial"; }
+            get { return "201906131944332_dbseed"; }
         }
         
         string IMigrationMetadata.Source

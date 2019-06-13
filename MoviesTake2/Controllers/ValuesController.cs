@@ -7,11 +7,13 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
+using System.Web.Http.Description;
 
 namespace MoviesTake2.Controllers
 {
     //[Authorize]
-    [AllowCrossSite]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ValuesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -50,7 +52,7 @@ namespace MoviesTake2.Controllers
         //}
         [HttpPost]
         // POST api/values
-        public async Task<IHttpActionResult> Post([FromBody] MovieViewModel postedMovie)
+        public IHttpActionResult Post([FromBody] MovieViewModel postedMovie)
         {
             if (!ModelState.IsValid)
             {
@@ -66,23 +68,26 @@ namespace MoviesTake2.Controllers
         }
 
         // PUT api/values/5
-        //public IHttpActionResult Put([FromBody] MovieViewModel movie)
-        //{
-        //    var existingMovie = db.Movies.Single(m => m.Title == movie.Title);
-        //    if (movie.Title != null)
-        //    {
-        //        existingMovie.Title = movie.Title;
-        //    }
-        //    if (movie.Genre != null)
-        //    {
-        //        existingMovie.Genre = movie.Genre;
-        //    }
-        //    if (movie.DirectorName != null)
-        //    {
-        //        existingMovie.DirectorName = movie.DirectorName;
-        //    }
-        //    db.SaveChanges();
-        //    return Ok();
-        //}
+        [HttpPut]
+        //[Route("{id:int}")]
+        //[ResponseType(typeof(void))]
+        public void Put(int id, [FromBody] Movie movie)
+        {
+            var existingMovie = db.Movies.Find(id);
+            if (movie.Title != null)
+            {
+                existingMovie.Title = movie.Title;
+            }
+            if (movie.Genre != null)
+            {
+                existingMovie.Genre = movie.Genre;
+            }
+            if (movie.DirectorName != null)
+            {
+                existingMovie.DirectorName = movie.DirectorName;
+            }
+            db.SaveChanges();
+            //return Ok();
+        }
     }
 }
