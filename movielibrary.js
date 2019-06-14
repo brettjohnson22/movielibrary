@@ -7,9 +7,9 @@ function get(){
 		success: function(data){
 			$('#formTitle').html('All Movies');
 			$('#allmovies').empty();
-			$('#allmovies').append('<tr><td>Title</<td><td>Genre</td><td>Director</td><tr>');
+			$('#allmovies').append('<tr><th>Title</<th><th>Genre</th><th>Director</th><tr>');
 			$.each(data, function (i, item){
-				$('#allmovies').append('<tr><td>' + data[i].Title + '</td><td>' + data[i].Genre + '</td><td>' + data[i].DirectorName + '</td><td><button type="button" onclick="edit(' + i + ')">Edit</button></tr>');
+				$('#allmovies').append('<tr><td>' + data[i].Title + '</td><td>' + data[i].Genre + '</td><td>' + data[i].DirectorName + '</td><td><button type="button" onclick="edit(' + (i + 1) + ')">Edit</button></tr>');
 			});
 		}
 	});
@@ -44,6 +44,7 @@ function put(id){
 function createData(id){
 	if (arguments.length === 1) {
 		var data = {
+				Id: id,
 				Title: $('#titleInput')[0].value,
 				Genre: $('#genreInput')[0].value,
 				DirectorName: $('#directorInput')[0].value,
@@ -76,7 +77,7 @@ function singleForm(){
 	$('#movieForm').on('submit', function(e){
 		e.preventDefault();	
 	});
-	$('#searchChoice').html('<input type="radio" name="searchTrait" value="Title" id="titleSearch" >Title<input type="radio" name="searchTrait" value="Genre" id="genreSearch" > Genre<input type="radio" name="searchTrait" value="DirectorName" id="directorSearch">Director<br>')
+	$('#searchChoice').html('<input type="radio" name="searchTrait" value="Title" id="titleSearch" >Title<span>  </span><input type="radio" name="searchTrait" value="Genre" id="genreSearch" > Genre<span>  </span><input type="radio" name="searchTrait" value="DirectorName" id="directorSearch">Director<br>')
 }
 
 function singleSearch(){
@@ -86,7 +87,7 @@ function singleSearch(){
 		success: function(data){
 			$('#formTitle').html('Search Results');
 			$('#allmovies').empty();
-			$('#allmovies').html('<tr><td>Title</<td><td>Genre</td><td>Director</td><tr>');
+			$('#allmovies').html('<tr><th>Title</<th><th>Genre</th><th>Director</th><tr>');
 			var checked = $('input:radio[name=searchTrait]:checked').val();
 			$.each(data, function(i, item){
 				if(data[i][checked] == $('#traitSearch').val()){

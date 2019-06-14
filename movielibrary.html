@@ -2,31 +2,43 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 
 <body>
-	<h1>Movie Library</h1>
-	<button class="option" type="button" onclick="get()">Get List</button>
-	<button class="option" type="button" onclick="singleForm()">Search</button>
-	<button class="option" type="button" onclick="fullForm('Add Movie', 'post()')">Add Movie</button>
-	<p id="formTitle"></p>
-	<table id="allmovies"></table>
-	<form id="movieForm"></form>
-	<form id="searchChoice"></form>
-	<br>
-	<button type="button" onclick="restart()">Restart</button>
+	<div class="container-fluid">
+		<br>
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+			<h1 class="text-center">Movie Library</h1>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+		<br><br><br>
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8 text-center">
+			<p id="formTitle"></p>
+			<table id="allmovies"></table>
+			<br><br>
+			<form id="movieForm"></form>
+			<br><br>
+			<form id="searchChoice" class="mainBox"></form>
+			<button class="option" type="button" onclick="get()">Get List</button>
+			<button class="option" type="button" onclick="singleForm()">Search</button>
+			<button class="option" type="button" onclick="fullForm('Add Movie', 'post()')">Add Movie</button>
+			<br>
+			<br>
+			<button type="button" onclick="restart()">Restart</button>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+		</div>
+	</div>
 </body>
 </html>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 	<script src="movielibrary.js"></script>
-
-
-
-<!-- I want a search form for finding a single movie
-
-
-I want a form the user can fill out to add a movie to the database
-
- -->
